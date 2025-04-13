@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "An AI-Powered Study Buddy for interview preparation",
 };
 
-export default function RootLayout({
+export default function BaseLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

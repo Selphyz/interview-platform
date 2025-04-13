@@ -1,12 +1,16 @@
 import React from 'react';
 import Link from "next/link";
 import Image from "next/image";
+import {isAuthenticated} from "@/lib/actions/auth.action";
+import {redirect} from "next/navigation";
 
 interface ILayout {
     children: React.ReactNode;
 }
 
-const Layout: React.FC<ILayout> = ({children}) => {
+const RootLayout: React.FC<ILayout> = async ({children}) => {
+    const isUserAuthenticated = await isAuthenticated();
+    if(!isUserAuthenticated) redirect("/sign-in");
     return (
         <div className={"root-layout"}>
             <nav>
@@ -20,4 +24,4 @@ const Layout: React.FC<ILayout> = ({children}) => {
     );
 };
 
-export default Layout;
+export default RootLayout;

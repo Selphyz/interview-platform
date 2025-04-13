@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, getApp, getApps } from "firebase/app";
-import {getAuth} from "firebase/auth";
+import {initializeApp, getApp, getApps, FirebaseOptions} from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-const firebaseConfig = {
+const firebaseConfig : FirebaseOptions = {
     apiKey: "AIzaSyBXBcQLEDA059dLWKuOrAltPsRERm9394s",
     authDomain: "interview-platform-273f8.firebaseapp.com",
     projectId: "interview-platform-273f8",

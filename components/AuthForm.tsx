@@ -15,6 +15,9 @@ import Image from "next/image";
 import Link from 'next/link';
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {auth} from "@/firebase/client";
+import {signIn, signUp} from "@/lib/actions/auth.action";
 
 interface IAuthForm {
     type: 'sign-in' | 'sign-up';
@@ -51,23 +54,49 @@ export const AuthForm: React.FC<IAuthForm> = ({type}) => {
     console.log("useForm initialized successfully");
 
     // Wrap the entire component logic in a try-catch
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            console.log("Form submitted with values:", values);
-            if(type === "sign-up") {
-                // Call your sign up API here
-                toast.success("Sign up successful, please sign in");
-                router.push("/sign-in")
-                console.log("Sign up values", values);
+            if(type === 'sign-up') {
+                const { name, email, password } = values;
+
+                const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+
+                const result = await signUp({
+                    uid: userCredentials.user.uid,
+                    name: name!,
+                    email,
+                    password,
+                })
+
+                if(!result?.success) {
+                    toast.error(result?.message);
+                    return;
+                }
+
+                toast.success('Account created successfully. Please sign in.');
+                router.push('/sign-in')
             } else {
-                // Call your sign in API here
-                toast.success("Sign in successful");
-                router.push("/");
-                console.log("Sign in values", values);
+                const { email, password } = values;
+
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+                const idToken = await userCredential.user.getIdToken();
+
+                if(!idToken) {
+                    toast.error('Sign in failed')
+                    return;
+                }
+
+                await signIn({
+                    email, idToken
+                })
+
+                toast.success('Sign in successfully.');
+                router.push('/')
             }
-        } catch (err) {
-            console.error("Error in form submission:", err);
-            toast.error(`There was an error: ${err}`);
+        } catch (error) {
+            console.log(error);
+            toast.error(`There was an error: ${error}`)
         }
     }
 
@@ -83,10 +112,10 @@ export const AuthForm: React.FC<IAuthForm> = ({type}) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         {!isSignIn && (
-                            <FormField name={"name"} control={form.control} type={"text"} label={"Name"} placeholder={"Texto"} />
+                            <FormField name={"name"} control={form.control} type={"text"} label={"Name"} placeholder={"Nombre"} />
                         )}
                         <FormField name={"email"} control={form.control} type={"text"} label={"Email"} placeholder={"Tu email"} />
-                        <FormField name={"password"} control={form.control} type={"password"} label={"Password"} placeholder={"Your password"} />
+                        <FormField name={"password"} control={form.control} type={"password"} label={"Password"} placeholder={"Tu password"} />
                         <Button className={"btn"} type="submit">{isSignIn ? "Sign In" : "Create an Account"}</Button>
                     </form>
                     <p className={"text-center"}>
