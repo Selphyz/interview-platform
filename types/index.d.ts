@@ -13,6 +13,13 @@ interface Feedback {
   createdAt: string;
 }
 
+enum CallStatus {
+    INACTIVE = "INACTIVE",
+    CONNECTING = "CONNECTING",
+    ACTIVE = "ACTIVE",
+    FINISHED = "FINISHED",
+}
+
 interface Interview {
   id: string;
   role: string;
