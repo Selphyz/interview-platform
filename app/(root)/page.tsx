@@ -28,7 +28,7 @@ const Page: React.FC<IPage> = () => {
                 <h2>Your interviews</h2>
                 <div className="interviews-section">
                     {dummyInterviews.map((interview) => (
-                        <InterviewCard key={interview.id} interviewId={''} user={''} role={''} type={'Technical'} techstack={[]} createdAt={''} />
+                        <InterviewCard key={interview.id} {...interview} type={'Technical'} />
                     ))}
                 </div>
             </section>
@@ -36,7 +36,7 @@ const Page: React.FC<IPage> = () => {
                 <h2>Take an interview</h2>
                 <div className={"interviews-section"}>
                     {dummyInterviews.map((interview) => (
-                        <InterviewCard key={interview.id} interviewId={''} user={''} role={''} type={'Mixed'} techstack={[]} createdAt={''} />
+                        <InterviewCard key={interview.id} {...interview} type={'Mixed'} />
                     ))}
                 </div>
             </section>
