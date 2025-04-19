@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import Agent from "@/components/Agent";
+import { getCurrentUser } from '@/lib/actions/auth.action';
 
 interface IPage {
 
 }
 
 const Page: React.FC<IPage> = () => {
+    const user = use(getCurrentUser());
     return (
         <>
             <h3></h3>
-            <Agent username={"You"} userId={"user1"} type={"Generate"}/>
+            {
+                user && <Agent userName={user?.name} userId={user?.id} type={"Generate"}/>
+            }
         </>
     );
 };
