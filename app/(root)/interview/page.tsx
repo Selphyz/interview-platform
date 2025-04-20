@@ -1,4 +1,4 @@
-import React, { use, useEffect } from 'react';
+import React, { use } from 'react';
 import Agent from "@/components/Agent";
 import { getCurrentUser } from '@/lib/actions/auth.action';
 
@@ -12,7 +12,7 @@ const Page: React.FC<IPage> = () => {
         <>
             <h3></h3>
             {
-                user && <Agent userName={user?.name} userId={user?.id} type={"Generate"}/>
+                user && <Agent userName={user?.name} userId={user?.id} type={"generate"}/>
             }
         </>
     );

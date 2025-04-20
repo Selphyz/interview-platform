@@ -7,7 +7,7 @@ import Link from "next/link";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 interface InterviewCard {
-    interviewId: string,
+    id: string,
     user: string,
     role: string,
     type: string,
@@ -15,7 +15,7 @@ interface InterviewCard {
     createdAt: string,
 }
 
-export const InterviewCard: React.FC<InterviewCard> = ({interviewId, createdAt, techstack, role, type, user}) => {
+export const InterviewCard: React.FC<InterviewCard> = ({id, createdAt, techstack, role, type, user}) => {
     const feedback = null as Feedback | null;
     const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
     const formattedDate = dayjs(feedback?.createdAt || createdAt || Date.now()).format('MMM D, YYYY');
@@ -47,8 +47,8 @@ export const InterviewCard: React.FC<InterviewCard> = ({interviewId, createdAt, 
                 <div className={"flex flex-row justify-between"}>
                     <DisplayTechIcons techStack={techstack} />
                     <Button className={"btn-primary"}>
-                        <Link href={feedback ? `/interview/${interviewId}/feedback`
-                        : `/interview/${interviewId}`}>
+                        <Link href={feedback ? `/interview/${id}/feedback`
+                        : `/interview/${id}`}>
                             {feedback ? "See Feedback" : "View the Interview"}
                         </Link>
                     </Button>
