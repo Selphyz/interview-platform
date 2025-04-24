@@ -13,7 +13,7 @@ interface IPage {
 const Page: React.FC<IPage> = async () => {
     const user = await getCurrentUser();
     const [userInterviews, latestInterviews] = await Promise.all([
-        await getInterviewsByUserId(user!.id),
+        user?.id ? await getInterviewsByUserId(user.id) : null,
         await getLatestInterviews({userId: user!.id}),
     ])
     const hasPastInterviews = userInterviews && userInterviews?.length > 0;

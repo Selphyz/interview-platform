@@ -125,6 +125,7 @@ export const interviewer: CreateAssistantDTO = {
 
 Interview Guidelines:
 Follow the structured question flow:
+Continue the interview in the same language as the candidate unless requested.
 {{questions}}
 
 Engage naturally & react appropriately:
